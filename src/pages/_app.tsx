@@ -5,6 +5,7 @@ import { NextPage } from 'next/types';
 import PageWithLayoutType from 'src/types/layout';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { NotifContextProvider } from '@stores/notifProvider';
+import { UserContextProvider } from '@stores/userProvider';
 
 
 type AppLayoutProps = {
@@ -24,11 +25,15 @@ const MyApp: NextPage<AppLayoutProps> = ({ Component, pageProps }) => {
         <title>{process.env.APP_NAME}</title>
       </Head>
       <NotifContextProvider>
-        <QueryClientProvider client={queryClient}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </QueryClientProvider>
+
+        <UserContextProvider>
+
+          <QueryClientProvider client={queryClient}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </QueryClientProvider>
+        </UserContextProvider>
       </NotifContextProvider>
     </>
   );
