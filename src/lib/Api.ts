@@ -29,29 +29,48 @@ const handleError = (error) => {
 };
 
 class Api {
-	static get = (requestPath: string, payload?: {}, transformRequest?: {}) => {
-		return Api._fetch('get', requestPath, payload, transformRequest);
+	static get = (requestPath: string, payload?: {}) => {
+		return Api._fetch('get', requestPath, payload);
 	};
 
-	static post = (requestPath: string, payload?: {}, transformRequest?: {}) => {
-		return Api._fetch('post', requestPath, payload, transformRequest);
+	static post = (requestPath: string, payload?: {}) => {
+		return Api._fetch('post', requestPath, payload);
 	};
 
-	static put = (requestPath: string, payload?: {}, transformRequest?: {}) => {
-		return Api._fetch('put', requestPath, payload, transformRequest);
+	static put = (requestPath: string, payload?: {}) => {
+		return Api._fetch('put', requestPath, payload);
 	};
 
-	static delete = (requestPath: string, payload?: {}, transformRequest?: {}) => {
-		return Api._fetch('delete', requestPath, payload, transformRequest);
+	static delete = (requestPath: string, payload?: {}) => {
+		return Api._fetch('delete', requestPath, payload);
 	};
 
-	static _fetch = (method, requestPath, payload = {}, transformRequest) => {
+	static postimage = (requestPath: string, payload?: {}) => {
+		const transformHeaders = {
+			'Accept': 'application/json',
+			'Content-Type': 'multipart/form-data',
+		};
+
+		return Api._fetch('post', requestPath, payload, transformHeaders);
+	};
+
+	static putimage = (requestPath: string, payload?: {}) => {
+		const transformHeaders = {
+			'Accept': 'application/json',
+			'Content-Type': 'multipart/form-data',
+		};
+
+		return Api._fetch('put', requestPath, payload, transformHeaders);
+	};
+
+	static _fetch = (method, requestPath, payload = {}, transformHeaders?: {}) => {
 		payload = { ...payload, ...appPayLoad };
 		const dataKey = (method === 'get') ? 'params' : 'data';
 		const url = encodeURI(process.env.API_END_POINT + requestPath);
-		transformRequest = isEmptyObject(transformRequest) ? {} : {
-			transformRequest: [transformRequest]
-		};
+		const headers = isEmptyObject(transformHeaders) ? {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+		} : transformHeaders;
 
 		const request = axios.request({
 			httpsAgent: new https.Agent({
@@ -59,15 +78,10 @@ class Api {
 			}),
 			url: url,
 			method: method,
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-			},
-
+			headers: headers,
 			[dataKey]: payload,
 			timeout: 20000,
 			responseType: 'json',
-			...transformRequest
 		}).then(res => convertJsonData(res.data))
 			.catch(error => {
 
@@ -97,7 +111,7 @@ class Api {
 				if (error.response) {
 					if (error.response.data) {
 						const result = error.response.data;
-						if (result.error) {
+						if (!result.success) {
 							// transform response to formik setError format
 							if (result.payload && result.payload.listError) {
 								result.payload.listError = toObjectKeyValue(Object.values(result.payload.listError), 'field', 'msg');

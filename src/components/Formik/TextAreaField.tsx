@@ -1,6 +1,5 @@
-import { FastField, ErrorMessage } from 'formik';
+import { Field, ErrorMessage } from 'formik';
 import { NextPage } from 'next';
-import React from 'react';
 
 interface Props {
 	label?: string;
@@ -9,7 +8,7 @@ interface Props {
 	required?: boolean;
 }
 
-const TextField: NextPage<Props & React.HTMLProps<HTMLInputElement>> = ({ label, name, type, required, ...props }) => {
+const TextAreaField: React.FC<Props & React.HTMLProps<HTMLTextAreaElement>> = ({ label, name, type, required, ...props }) => {
 	return (
 		<div className={'flex flex-col w-full'}>
 			{label && (
@@ -18,8 +17,9 @@ const TextField: NextPage<Props & React.HTMLProps<HTMLInputElement>> = ({ label,
 					{required && <span className={'text-red-600'}>{'*'}</span>}
 				</div>
 			)}
-			<FastField
-				className={'w-full border-2 rounded h-10 px-2 bg-gray-50 disabled:bg-gray-200 disabled:cursor-not-allowed'}
+			<Field
+				as={'textarea'}
+				className={'w-full border-2 rounded h-20 px-2 py-1 bg-gray-50 disabled:bg-gray-200 disabled:cursor-not-allowed'}
 				type={type}
 				name={name}
 				{...props}
@@ -35,4 +35,4 @@ const TextField: NextPage<Props & React.HTMLProps<HTMLInputElement>> = ({ label,
 	);
 };
 
-export default TextField;
+export default TextAreaField;

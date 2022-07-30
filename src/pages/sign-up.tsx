@@ -19,8 +19,13 @@ type Props = {
 }
 
 let schema = Yup.object().shape({
-  username: Yup.string().required(),
-  passwd: Yup.string().required(),
+  // fullname: Yup.string().label('Fullname').required(),
+  // propertyName: Yup.string().label('Property Name').required(),
+  // email: Yup.string().label('Email').required(),
+  // noHp: Yup.string().label('No Handphone').required(),
+  // username: Yup.string().label('Username').required(),
+  // passwd: Yup.string().label('Password').required(),
+  // confirmPasswd: Yup.string().label('Confirm Password').required(),
 });
 
 const SingIn: NextPage<Props> = () => {
@@ -30,11 +35,16 @@ const SingIn: NextPage<Props> = () => {
   const router = useRouter();
 
   const initFormikValue = {
+    fullname: '',
+    propertyName: '',
+    email: '',
+    noHp: '',
     username: '',
     passwd: '',
+    confirmPasswd: '',
   };
 
-  const { data, mutate, isLoading } = useMutation((val: FormikValues) => Api.post('/sign-in', val));
+  const { data, mutate, isLoading } = useMutation((val: FormikValues) => Api.post('/sign-up', val));
 
   const handleSubmit = (values: FormikValues, setErrors) => {
     mutate(values, {
@@ -42,8 +52,8 @@ const SingIn: NextPage<Props> = () => {
         if (res) {
           if (res.success) {
             setUser(res.payload);
-            router.push('/overview');
-          } else if (res.error) {
+            router.push('/sign-in');
+          } else {
             if (res.payload && res.payload.listError) {
               setErrors(res.payload.listError);
             } else {
@@ -64,8 +74,8 @@ const SingIn: NextPage<Props> = () => {
         <title>{process.env.APP_NAME + ' - Sign In'}</title>
         <meta name="theme-color" content={'#FAF5FF'} />
       </Head>
-      <div className={'h-screen w-screen flex justify-center items-center -mt-16'}>
-        <div className={'px-4 w-full max-w-md'}>
+      <div className={' w-screen flex justify-center items-center'}>
+        <div className={'px-4 w-full max-w-lg my-16'}>
           <div className={'w-full bg-white rounded-lg shadow p-4 mb-2'}>
             <Formik
               initialValues={initFormikValue}
@@ -77,9 +87,41 @@ const SingIn: NextPage<Props> = () => {
                 return (
                   <Form>
                     <div className={'flex justify-center'}>
-                      <span className={'text-xl'}>{'Sign Innn'}</span>
+                      <span className={'text-xl'}>{'Sign Up'}</span>
                     </div>
                     <div className={''}>
+                      <div className="mb-4">
+                        <TextField
+                          label={'Fullname'}
+                          name={'fullname'}
+                          type={'text'}
+                          placeholder={'Fullname'}
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <TextField
+                          label={'Property Name'}
+                          name={'propertyName'}
+                          type={'text'}
+                          placeholder={'Property Name'}
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <TextField
+                          label={'Email'}
+                          name={'email'}
+                          type={'email'}
+                          placeholder={'Email'}
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <TextField
+                          label={'No Handphone'}
+                          name={'noHp'}
+                          type={'text'}
+                          placeholder={'No Handphone'}
+                        />
+                      </div>
                       <div className="mb-4">
                         <TextField
                           label={'Username'}
@@ -96,9 +138,17 @@ const SingIn: NextPage<Props> = () => {
                           placeholder={'Password'}
                         />
                       </div>
+                      <div className="mb-4">
+                        <TextField
+                          label={'Confirm Password'}
+                          type={'password'}
+                          name={'confirmPasswd'}
+                          placeholder={'Confirm Password'}
+                        />
+                      </div>
                       <div className={''}>
                         <ButtonSubmit
-                          label={'Sign In'}
+                          label={'Sign Up'}
                           disabled={isLoading}
                           loading={isLoading}
                         />
@@ -111,11 +161,11 @@ const SingIn: NextPage<Props> = () => {
           </div>
           <div className={'flex'}>
             <div className={'mr-1'}>
-              {'Don\'t have an account yet?'}
+              {'Already have an account?'}
             </div>
-            <Link href={'/sign-up'} passHref>
+            <Link href={'/sign-in'} passHref>
               <a className={'text-purple-500'}>
-                <div>Register Now</div>
+                <div>Login</div>
               </a>
             </Link>
           </div>

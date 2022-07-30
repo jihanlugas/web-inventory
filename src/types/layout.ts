@@ -6,6 +6,6 @@ type PageWithMainLayoutType = NextPage & { layout: typeof MainLayout, title?: st
 // type PageWithPostLayoutType = NextPage & { layout: typeof SecondaryLayout }
 
 // type PageWithLayoutType = PageWithMainLayoutType | PageWithPostLayoutType
-type PageWithLayoutType = PageWithMainLayoutType
+type PageWithLayoutType = PageWithMainLayoutType & any
 
 export default PageWithLayoutType;

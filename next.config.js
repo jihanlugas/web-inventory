@@ -5,13 +5,17 @@ const nextConfig = {
     APP_NAME: process.env.APP_NAME,
     COOKIE_NAME: process.env.COOKIE_NAME,
     API_END_POINT: process.env.API_END_POINT,
+    DEFAULT_IMAGE: '/default.jpg',
   },
-  i18n: {
-    // providing the locales supported by your application
-    locales: ['en', 'id'],
-    //  default locale used when the non-locale paths are visited
-    defaultLocale: 'en',
+  images: {
+    domains: ['localhost'],
   },
+  // i18n: {
+  //   // providing the locales supported by your application
+  //   locales: ['en', 'id'],
+  //   //  default locale used when the non-locale paths are visited
+  //   defaultLocale: 'en',
+  // },
   async redirects() {
     return [
       {

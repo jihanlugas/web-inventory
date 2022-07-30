@@ -32,7 +32,7 @@
         "src/utils/*"
       ],
       "@type/*": [
-        "src/type/*"
+        "src/types/*"
       ],
       "@asset/*": [
         "src/assets/*"

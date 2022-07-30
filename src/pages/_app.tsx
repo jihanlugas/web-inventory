@@ -2,7 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { NextPage } from 'next/types';
-import PageWithLayoutType from 'src/types/layout';
+import PageWithLayoutType from '@type/layout';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { NotifContextProvider } from '@stores/notifProvider';
 import { UserContextProvider } from '@stores/userProvider';
@@ -25,9 +25,7 @@ const MyApp: NextPage<AppLayoutProps> = ({ Component, pageProps }) => {
         <title>{process.env.APP_NAME}</title>
       </Head>
       <NotifContextProvider>
-
         <UserContextProvider>
-
           <QueryClientProvider client={queryClient}>
             <Layout>
               <Component {...pageProps} />

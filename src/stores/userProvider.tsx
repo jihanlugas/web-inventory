@@ -11,6 +11,8 @@ type AppContextState = {
   username: string;
   fullname: string;
   userId: number;
+  propertyId: number;
+  propertyName: string;
 }
 
 const initUser = {
@@ -18,6 +20,8 @@ const initUser = {
   username: '',
   fullname: '',
   userId: 0,
+  propertyId: 0,
+  propertyName: '',
 };
 
 type UserContextType = {
